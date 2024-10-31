@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Inventario</title>
+</head>
+<body>
+    <div class="container">
+        <h1>UNLOCK MOBILE GSM</h1>
+        <form id="inventoryForm">
+            <input type="text" id="productName" placeholder="Nombre del servicio" required>
+            <input type="text" id="providerName" placeholder="Nombre del proveedor" required>
+            <input type="number" id="purchasePrice" placeholder="Precio de compra" required step="0.01">
+            <input type="number" id="salePrice" placeholder="Precio de venta" required step="0.01">
+            <button type="submit">Agregar servicio</button>
+        </form>
+        <button id="historyButton" class="history-btn">Historial de Servicios</button>
+        <button id="backButton" style="display:none;">Regresar</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Proveedor</th>
+                    <th>Precio de Compra</th>
+                    <th>Precio de Venta</th>
+                    <th>Estatus</th>
+                    <th>Fecha y Hora</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryList"></tbody>
+        </table>
+        <h2 id="totalInvestment">Inversión Total: $0.00</h2>
+        <h2 id="totalProfit">Ganancias Totales: $0.00</h2>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
