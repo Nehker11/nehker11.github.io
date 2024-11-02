@@ -6,6 +6,12 @@ body {
     padding: 20px;
 }
 
+.logo {
+    width: 600px; /* Ajusta el tamaño según prefieras */
+    height: auto;  /* Mantiene la proporción de la imagen */
+}
+
+
 .container {
     max-width: 600px;
     margin: auto;
@@ -83,10 +89,10 @@ td {
 .history-btn {
     background-color: #e53935;
     color: white;
-    padding: 10px;
+    padding: 5px;
     border: none;
-    border-radius: 8px;
-    margin-top: 10px;
+    border-radius: 6px;
+    margin-top: 7px;
     cursor: pointer;
     font-size: 16px;
 }
