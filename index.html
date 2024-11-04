@@ -8,9 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <img src="https://imgur.com/a/qN6hxDH" alt="logo de la app" class="logo"
-        </header>
+        <h1>UNLOCK MOBILE GSM</h1>
         <form id="inventoryForm">
             <input type="text" id="productName" placeholder="Nombre del servicio" required>
             <input type="text" id="providerName" placeholder="Nombre del proveedor" required>
@@ -18,7 +16,7 @@
             <input type="number" id="salePrice" placeholder="Precio de venta" required step="0.01">
             <button type="submit">Agregar servicio</button>
         </form>
-        <button id="historyButton" class="history-btn">Historial de Servicios</button>
+        <!-- Botón de regresar, sólo si es necesario para alguna funcionalidad -->
         <button id="backButton" style="display:none;">Regresar</button>
         <table>
             <thead>
@@ -34,7 +32,7 @@
             </thead>
             <tbody id="inventoryList"></tbody>
         </table>
-        <h2 id="totalInvestment">Inversion Total: $0.00</h2>
+        <h2 id="totalInvestment">Inversión Total: $0.00</h2>
         <h2 id="totalProfit">Ganancias Totales: $0.00</h2>
     </div>
     <script src="script.js"></script>

@@ -1,135 +1,129 @@
-const inventoryForm = document.getElementById('inventoryForm');
-const inventoryList = document.getElementById('inventoryList');
-const totalProfit = document.getElementById('totalProfit');
-const totalInvestment = document.getElementById('totalInvestment');
-const historyButton = document.getElementById('historyButton');
-const backButton = document.getElementById('backButton');
+document.addEventListener("DOMContentLoaded", function () {
+    const inventoryForm = document.getElementById("inventoryForm");
+    const inventoryList = document.getElementById("inventoryList");
+    const totalInvestment = document.getElementById("totalInvestment");
+    const totalProfit = document.getElementById("totalProfit");
 
-let products = JSON.parse(localStorage.getItem('products')) || [];
-let history = JSON.parse(localStorage.getItem('history')) || [];
+    // Cargar servicios de localStorage
+    function loadInventory() {
+        const savedInventory = JSON.parse(localStorage.getItem("inventory")) || [];
+        savedInventory.forEach(addServiceToTable);
+        updateTotals();
+    }
 
-// Actualizar lista de inventario
-function updateInventoryList() {
-    inventoryList.innerHTML = '';
-    let totalGain = 0;
-    let totalInv = 0;
+    // Agregar servicio a la tabla y al localStorage
+    inventoryForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const service = {
+            name: document.getElementById("productName").value,
+            provider: document.getElementById("providerName").value,
+            purchasePrice: parseFloat(document.getElementById("purchasePrice").value),
+            salePrice: parseFloat(document.getElementById("salePrice").value),
+            status: "Pendiente",
+            dateTime: new Date().toLocaleString()
+        };
+        addServiceToTable(service);
+        saveToLocalStorage(service);
+        updateTotals();
+        inventoryForm.reset();
+    });
 
-    products.forEach((product, index) => {
-        const gain = product.salePrice - product.purchasePrice;
-        if (product.paid) {
-            totalGain += gain;
-        } else {
-            totalInv += product.purchasePrice;
-        }
-
-        const row = document.createElement('tr');
+    function addServiceToTable(service) {
+        const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${product.name}</td>
-            <td>${product.provider}</td>
-            <td>$${product.purchasePrice.toFixed(2)}</td>
-            <td>$${product.salePrice.toFixed(2)}</td>
-            <td><button class="${product.paid ? 'paid' : 'pending'}" onclick="togglePaid(${index})">${product.paid ? 'Pagado' : 'Pendiente'}</button></td>
-            <td>${new Date(product.date).toLocaleString()}</td>
+            <td>${service.name}</td>
+            <td>${service.provider}</td>
+            <td>$${service.purchasePrice.toFixed(2)}</td>
+            <td>$${service.salePrice.toFixed(2)}</td>
+            <td><button class="status-btn pending" onclick="toggleStatus(this)">${service.status}</button></td>
+            <td>${service.dateTime}</td>
             <td>
-                <button onclick="editProduct(${index})">Editar</button>
-                <button onclick="deleteProduct(${index})">Eliminar</button>
+                <button onclick="deleteProduct(this)">Eliminar</button>
+                <button onclick="editProduct(this)">Editar</button>
             </td>
         `;
         inventoryList.appendChild(row);
-    });
+    }
 
-    totalInvestment.innerText = `Inversión Total: $${totalInv.toFixed(2)}`;
-    totalProfit.innerText = `Ganancias Totales: $${totalGain.toFixed(2)}`;
-}
+    function saveToLocalStorage(service) {
+        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+        inventory.push(service);
+        localStorage.setItem("inventory", JSON.stringify(inventory));
+    }
 
-// Alternar estado de pagado
-function togglePaid(index) {
-    products[index].paid = !products[index].paid;
-    localStorage.setItem('products', JSON.stringify(products));
-    updateInventoryList();
-}
+    function updateTotals() {
+        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+        let totalInvestmentValue = 0;
+        let totalProfitValue = 0;
+        inventory.forEach(service => {
+            totalInvestmentValue += service.purchasePrice;
+            // Solo sumar ganancias si el servicio está pagado
+            if (service.status === "Pagado") {
+                totalProfitValue += (service.salePrice - service.purchasePrice);
+            }
+        });
+        totalInvestment.textContent = `Inversión Total: $${totalInvestmentValue.toFixed(2)}`;
+        totalProfit.textContent = `Ganancias Totales: $${totalProfitValue.toFixed(2)}`;
+    }
 
-// Agregar producto
-inventoryForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('productName').value;
-    const provider = document.getElementById('providerName').value;
-    const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
-    const salePrice = parseFloat(document.getElementById('salePrice').value);
-    const date = new Date();
+    // Cambiar estado del servicio
+    window.toggleStatus = function (button) {
+        const row = button.closest("tr");
+        const status = button.textContent === "Pendiente" ? "Pagado" : "Pendiente";
+        button.textContent = status;
+        button.classList.toggle("pending");
+        button.classList.toggle("paid");
 
-    products.push({ name, provider, purchasePrice, salePrice, date, paid: false });
-    localStorage.setItem('products', JSON.stringify(products));
-    updateInventoryList();
-    inventoryForm.reset();
+        // Actualizar las ganancias según el nuevo estado
+        updateTotals();
+        // Actualizar el almacenamiento local
+        updateLocalStorage();
+    };
+
+    // Eliminar un servicio
+    window.deleteProduct = function (button) {
+        const row = button.closest("tr");
+        const serviceName = row.cells[0].textContent;
+        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+        const updatedInventory = inventory.filter(service => service.name !== serviceName);
+        localStorage.setItem("inventory", JSON.stringify(updatedInventory));
+        row.remove();
+        updateTotals();
+    };
+
+    // Editar un servicio
+    window.editProduct = function (button) {
+        const row = button.closest("tr");
+        const productName = row.cells[0].textContent;
+        const providerName = row.cells[1].textContent;
+        const purchasePrice = parseFloat(row.cells[2].textContent.replace('$', ''));
+        const salePrice = parseFloat(row.cells[3].textContent.replace('$', ''));
+
+        // Rellenar el formulario
+        document.getElementById("productName").value = productName;
+        document.getElementById("providerName").value = providerName;
+        document.getElementById("purchasePrice").value = purchasePrice;
+        document.getElementById("salePrice").value = salePrice;
+
+        // Eliminar el servicio antiguo
+        deleteProduct(button);
+    };
+
+    // Actualizar el almacenamiento local al cambiar el estado
+    function updateLocalStorage() {
+        const inventory = Array.from(inventoryList.querySelectorAll("tr")).map(row => {
+            return {
+                name: row.cells[0].textContent,
+                provider: row.cells[1].textContent,
+                purchasePrice: parseFloat(row.cells[2].textContent.replace('$', '')),
+                salePrice: parseFloat(row.cells[3].textContent.replace('$', '')),
+                status: row.cells[4].querySelector("button").textContent,
+                dateTime: row.cells[5].textContent
+            };
+        });
+        localStorage.setItem("inventory", JSON.stringify(inventory));
+        updateTotals();
+    }
+
+    loadInventory();
 });
-
-// Editar producto
-function editProduct(index) {
-    const product = products[index];
-    document.getElementById('productName').value = product.name;
-    document.getElementById('providerName').value = product.provider;
-    document.getElementById('purchasePrice').value = product.purchasePrice;
-    document.getElementById('salePrice').value = product.salePrice;
-    products.splice(index, 1);
-    localStorage.setItem('products', JSON.stringify(products));
-    updateInventoryList();
-}
-
-// Eliminar producto
-function deleteProduct(index) {
-    products.splice(index, 1);
-    localStorage.setItem('products', JSON.stringify(products));
-    updateInventoryList();
-}
-
-// Muestra el historial de servicios
-function showHistory() {
-    inventoryList.innerHTML = '';
-    history.forEach((product) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${product.name}</td>
-            <td>${product.provider}</td>
-            <td>$${product.purchasePrice.toFixed(2)}</td>
-            <td>$${product.salePrice.toFixed(2)}</td>
-            <td>${product.paid ? 'Pagado' : 'Pendiente'}</td>
-            <td>${new Date(product.date).toLocaleString()}</td>
-            <td></td>
-        `;
-        inventoryList.appendChild(row);
-    });
-    backButton.style.display = 'block';
-    historyButton.style.display = 'none';
-}
-
-// Volver a la vista principal
-function showInventory() {
-    updateInventoryList();
-    backButton.style.display = 'none';
-    historyButton.style.display = 'block';
-}
-
-// Mover productos al historial cada lunes a las 7 am
-function scheduleWeeklyReset() {
-    const now = new Date();
-    const nextMonday = new Date(now);
-    nextMonday.setDate(now.getDate() + ((1 + 7 - now.getDay()) % 7));
-    nextMonday.setHours(7, 0, 0, 0);
-
-    const timeUntilNextMonday = nextMonday - now;
-    setTimeout(() => {
-        history = [...history, ...products];
-        products = [];
-        localStorage.setItem('history', JSON.stringify(history));
-        localStorage.setItem('products', JSON.stringify(products));
-        updateInventoryList();
-        scheduleWeeklyReset(); // Reprogramar para el siguiente lunes
-    }, timeUntilNextMonday);
-}
-
-historyButton.addEventListener('click', showHistory);
-backButton.addEventListener('click', showInventory);
-
-updateInventoryList();
-scheduleWeeklyReset();

@@ -7,10 +7,9 @@ body {
 }
 
 .logo {
-    width: 600px; /* Ajusta el tamaño según prefieras */
-    height: auto;  /* Mantiene la proporción de la imagen */
+    width: 600px;
+    height: auto;
 }
-
 
 .container {
     max-width: 600px;
@@ -83,68 +82,6 @@ td {
     background-color: #1e1e1e;
     border-radius: 8px;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos del botón de Historial */
-.history-btn {
-    background-color: #e53935;
-    color: white;
-    padding: 5px;
-    border: none;
-    border-radius: 6px;
-    margin-top: 7px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.history-btn:hover {
-    background-color: #b71c1c;
-}
-
-/* Estilos del botón de Regresar */
-#backButton {
-    background-color: #e53935;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-bottom: 10px;
-    display: none; /* Se oculta hasta que se muestra el historial */
-}
-
-/* Media Queries para Responsividad */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    input, button {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    th, td {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    h1, h2 {
-        font-size: 18px;
-    }
-
-    input, button {
-        font-size: 12px;
-        padding: 6px;
-    }
-
-    th, td {
-        font-size: 12px;
-        padding: 6px;
-    }
 }
 
 /* Botón de estado "Pendiente" (Rojo) */
