@@ -9,6 +9,7 @@ if (serviceData.length > 0) {
 }
 
 function addService() {
+    console.log("Botón de registrar servicio presionado"); // Mensaje de depuración
     const serviceName = document.getElementById("serviceName").value;
     const providerName = document.getElementById("providerName").value;
     const clientName = document.getElementById("clientName").value;
