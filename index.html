@@ -1,56 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Servicios</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Servicios</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="container">
     <h1>Registro de Servicios</h1>
-    <form id="serviceForm">
-        <label for="serviceName">Nombre del Servicio:</label>
-        <input type="text" id="serviceName" required>
-
-        <label for="providerName">Nombre del Proveedor:</label>
-        <input type="text" id="providerName" required>
-
-        <label for="clientName">Nombre del Cliente:</label>
-        <input type="text" id="clientName" required>
-
-        <label for="purchasePrice">Precio de Compra:</label>
-        <input type="number" id="purchasePrice" required>
-
-        <label for="salePrice">Precio de Venta:</label>
-        <input type="number" id="salePrice" required>
-
-        <label for="paymentMethod">Método de Pago:</label>
-        <select id="paymentMethod" required>
-            <option value="Binance Pay">Binance Pay</option>
-            <option value="Pago Móvil">Pago Móvil</option>
-        </select>
-
-        <button type="button" onclick="addService()">Registrar Servicio</button>
+    <form id="serviceForm" class="box">
+      <input type="text" id="serviceName" placeholder="Nombre del servicio" required>
+      <input type="text" id="providerName" placeholder="Nombre del proveedor" required>
+      <input type="text" id="clientName" placeholder="Nombre del cliente" required>
+      <!-- Campos de precio modificados para aceptar decimales -->
+      <input type="number" id="purchasePrice" placeholder="Precio de compra" step="0.01" required>
+      <input type="number" id="salePrice" placeholder="Precio de venta" step="0.01" required>
+      <select id="paymentMethod">
+        <option value="Binance Pay">Binance Pay</option>
+        <option value="Pago Móvil">Pago Móvil</option>
+      </select>
+      <button type="submit">Agregar Servicio</button>
     </form>
-
-    <table id="serviceTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre del Servicio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
+    <table id="serviceTable" class="box">
+      <thead>
+        <tr>
+          <th>ID Servicio</th>
+          <th>Nombre del Servicio</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="serviceList">
+      </tbody>
     </table>
-
-    <div id="serviceDetailsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeDetails()">×</span>
-            <div id="detailsContent"></div>
-        </div>
+    <div id="serviceDetails" class="modal">
+      <div class="modal-content">
+        <span id="closeModal">&times;</span>
+        <h2>Detalles del Servicio</h2>
+        <p id="serviceInfo"></p>
+      </div>
     </div>
-
-    <script src="app.js"></script>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
