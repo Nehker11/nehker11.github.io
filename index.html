@@ -3,38 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Servicios</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Inventario</title>
 </head>
 <body>
-    <div class="container">
-        <h1>UNLOCK MOBILE GSM</h1>
-        <form id="inventoryForm">
-            <input type="text" id="productName" placeholder="Nombre del servicio" required>
-            <input type="text" id="providerName" placeholder="Nombre del proveedor" required>
-            <input type="number" id="purchasePrice" placeholder="Precio de compra" required step="0.01">
-            <input type="number" id="salePrice" placeholder="Precio de venta" required step="0.01">
-            <button type="submit">Agregar servicio</button>
-        </form>
-        <!-- Botón de regresar, sólo si es necesario para alguna funcionalidad -->
-        <button id="backButton" style="display:none;">Regresar</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>Servicio</th>
-                    <th>Proveedor</th>
-                    <th>Precio de Compra</th>
-                    <th>Precio de Venta</th>
-                    <th>Estatus</th>
-                    <th>Fecha y Hora</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryList"></tbody>
-        </table>
-        <h2 id="totalInvestment">Inversión Total: $0.00</h2>
-        <h2 id="totalProfit">Ganancias Totales: $0.00</h2>
+    <h1>Registro de Servicios</h1>
+    <form id="serviceForm">
+        <label for="serviceName">Nombre del Servicio:</label>
+        <input type="text" id="serviceName" required>
+
+        <label for="providerName">Nombre del Proveedor:</label>
+        <input type="text" id="providerName" required>
+
+        <label for="clientName">Nombre del Cliente:</label>
+        <input type="text" id="clientName" required>
+
+        <label for="purchasePrice">Precio de Compra:</label>
+        <input type="number" id="purchasePrice" required>
+
+        <label for="salePrice">Precio de Venta:</label>
+        <input type="number" id="salePrice" required>
+
+        <label for="paymentMethod">Método de Pago:</label>
+        <select id="paymentMethod" required>
+            <option value="Binance Pay">Binance Pay</option>
+            <option value="Pago Móvil">Pago Móvil</option>
+        </select>
+
+        <button type="button" onclick="addService()">Registrar Servicio</button>
+    </form>
+
+    <table id="serviceTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Servicio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="serviceDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDetails()">×</span>
+            <div id="detailsContent"></div>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="app.js"></script>
 </body>
 </html>
