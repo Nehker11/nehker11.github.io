@@ -5,6 +5,7 @@ let serviceData = JSON.parse(localStorage.getItem("serviceData")) || [];
 if (serviceData.length > 0) {
     serviceId = serviceData[serviceData.length - 1].id + 1;
     updateServiceTable();
+    console.log("Datos cargados desde localStorage");
 }
 
 function addService() {
@@ -33,7 +34,8 @@ function addService() {
     };
 
     serviceData.push(newService);
-    localStorage.setItem("serviceData", JSON.stringify(serviceData)); // Guardar en localStorage
+    localStorage.setItem("serviceData", JSON.stringify(serviceData));
+    console.log("Servicio agregado:", newService);
     updateServiceTable();
     document.getElementById("serviceForm").reset();
 }
