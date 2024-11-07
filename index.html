@@ -13,7 +13,6 @@
       <input type="text" id="serviceName" placeholder="Nombre del servicio" required>
       <input type="text" id="providerName" placeholder="Nombre del proveedor" required>
       <input type="text" id="clientName" placeholder="Nombre del cliente" required>
-      <!-- Campos de precio modificados para aceptar decimales -->
       <input type="number" id="purchasePrice" placeholder="Precio de compra" step="0.01" required>
       <input type="number" id="salePrice" placeholder="Precio de venta" step="0.01" required>
       <select id="paymentMethod">
@@ -22,6 +21,10 @@
       </select>
       <button type="submit">Agregar Servicio</button>
     </form>
+    
+    <!-- Botón de totalización -->
+    <button id="totalizationButton" class="box" onclick="abrirTotalizacion()">Totalización</button>
+    
     <table id="serviceTable" class="box">
       <thead>
         <tr>
@@ -33,14 +36,26 @@
       <tbody id="serviceList">
       </tbody>
     </table>
+    
+    <!-- Modal para detalles del servicio -->
     <div id="serviceDetails" class="modal">
       <div class="modal-content">
-        <span id="closeModal">&times;</span>
+        <span id="closeModal" onclick="cerrarDetalles()">×</span>
         <h2>Detalles del Servicio</h2>
         <p id="serviceInfo"></p>
       </div>
     </div>
+    
+    <!-- Modal para totalización -->
+    <div id="totalizationModal" class="modal">
+      <div class="modal-content">
+        <span id="closeTotalizationModal" onclick="cerrarTotalizacion()">×</span>
+        <h2>Totalización</h2>
+        <p id="investmentAndProfit"></p>
+      </div>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
