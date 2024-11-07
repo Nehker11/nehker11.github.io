@@ -1,129 +1,74 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const inventoryForm = document.getElementById("inventoryForm");
-    const inventoryList = document.getElementById("inventoryList");
-    const totalInvestment = document.getElementById("totalInvestment");
-    const totalProfit = document.getElementById("totalProfit");
+let serviceId = 1;
+let serviceData = JSON.parse(localStorage.getItem("serviceData")) || [];
 
-    // Cargar servicios de localStorage
-    function loadInventory() {
-        const savedInventory = JSON.parse(localStorage.getItem("inventory")) || [];
-        savedInventory.forEach(addServiceToTable);
-        updateTotals();
+// Cargar datos desde localStorage al cargar la página
+if (serviceData.length > 0) {
+    serviceId = serviceData[serviceData.length - 1].id + 1;
+    updateServiceTable();
+}
+
+function addService() {
+    const serviceName = document.getElementById("serviceName").value;
+    const providerName = document.getElementById("providerName").value;
+    const clientName = document.getElementById("clientName").value;
+    const purchasePrice = document.getElementById("purchasePrice").value;
+    const salePrice = document.getElementById("salePrice").value;
+    const paymentMethod = document.getElementById("paymentMethod").value;
+    const date = new Date().toLocaleString();
+
+    if (!serviceName || !providerName || !clientName || !purchasePrice || !salePrice || !paymentMethod) {
+        alert("Por favor, completa todos los campos.");
+        return;
     }
 
-    // Agregar servicio a la tabla y al localStorage
-    inventoryForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const service = {
-            name: document.getElementById("productName").value,
-            provider: document.getElementById("providerName").value,
-            purchasePrice: parseFloat(document.getElementById("purchasePrice").value),
-            salePrice: parseFloat(document.getElementById("salePrice").value),
-            status: "Pendiente",
-            dateTime: new Date().toLocaleString()
-        };
-        addServiceToTable(service);
-        saveToLocalStorage(service);
-        updateTotals();
-        inventoryForm.reset();
-    });
+    const newService = {
+        id: serviceId++,
+        serviceName,
+        providerName,
+        clientName,
+        purchasePrice: `$${parseFloat(purchasePrice).toFixed(2)}`,
+        salePrice: `$${parseFloat(salePrice).toFixed(2)}`,
+        paymentMethod,
+        date,
+    };
 
-    function addServiceToTable(service) {
+    serviceData.push(newService);
+    localStorage.setItem("serviceData", JSON.stringify(serviceData)); // Guardar en localStorage
+    updateServiceTable();
+    document.getElementById("serviceForm").reset();
+}
+
+function updateServiceTable() {
+    const tbody = document.querySelector("#serviceTable tbody");
+    tbody.innerHTML = "";
+    serviceData.forEach(service => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${service.name}</td>
-            <td>${service.provider}</td>
-            <td>$${service.purchasePrice.toFixed(2)}</td>
-            <td>$${service.salePrice.toFixed(2)}</td>
-            <td><button class="status-btn pending" onclick="toggleStatus(this)">${service.status}</button></td>
-            <td>${service.dateTime}</td>
-            <td>
-                <button onclick="deleteProduct(this)">Eliminar</button>
-                <button onclick="editProduct(this)">Editar</button>
-            </td>
+            <td>${service.id}</td>
+            <td>${service.serviceName}</td>
+            <td><button onclick="showDetails(${service.id})">Ver</button></td>
         `;
-        inventoryList.appendChild(row);
+        tbody.appendChild(row);
+    });
+}
+
+function showDetails(id) {
+    const service = serviceData.find(s => s.id === id);
+    if (service) {
+        const detailsContent = `
+            <strong>Fecha y Hora:</strong> ${service.date}<br>
+            <strong>Servicio:</strong> ${service.serviceName}<br>
+            <strong>Proveedor:</strong> ${service.providerName}<br>
+            <strong>Cliente:</strong> ${service.clientName}<br>
+            <strong>Precio de Compra:</strong> ${service.purchasePrice}<br>
+            <strong>Precio de Venta:</strong> ${service.salePrice}<br>
+            <strong>Método de Pago:</strong> ${service.paymentMethod}
+        `;
+        document.getElementById("detailsContent").innerHTML = detailsContent;
+        document.getElementById("serviceDetailsModal").style.display = "flex";
     }
+}
 
-    function saveToLocalStorage(service) {
-        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
-        inventory.push(service);
-        localStorage.setItem("inventory", JSON.stringify(inventory));
-    }
-
-    function updateTotals() {
-        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
-        let totalInvestmentValue = 0;
-        let totalProfitValue = 0;
-        inventory.forEach(service => {
-            totalInvestmentValue += service.purchasePrice;
-            // Solo sumar ganancias si el servicio está pagado
-            if (service.status === "Pagado") {
-                totalProfitValue += (service.salePrice - service.purchasePrice);
-            }
-        });
-        totalInvestment.textContent = `Inversión Total: $${totalInvestmentValue.toFixed(2)}`;
-        totalProfit.textContent = `Ganancias Totales: $${totalProfitValue.toFixed(2)}`;
-    }
-
-    // Cambiar estado del servicio
-    window.toggleStatus = function (button) {
-        const row = button.closest("tr");
-        const status = button.textContent === "Pendiente" ? "Pagado" : "Pendiente";
-        button.textContent = status;
-        button.classList.toggle("pending");
-        button.classList.toggle("paid");
-
-        // Actualizar las ganancias según el nuevo estado
-        updateTotals();
-        // Actualizar el almacenamiento local
-        updateLocalStorage();
-    };
-
-    // Eliminar un servicio
-    window.deleteProduct = function (button) {
-        const row = button.closest("tr");
-        const serviceName = row.cells[0].textContent;
-        const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
-        const updatedInventory = inventory.filter(service => service.name !== serviceName);
-        localStorage.setItem("inventory", JSON.stringify(updatedInventory));
-        row.remove();
-        updateTotals();
-    };
-
-    // Editar un servicio
-    window.editProduct = function (button) {
-        const row = button.closest("tr");
-        const productName = row.cells[0].textContent;
-        const providerName = row.cells[1].textContent;
-        const purchasePrice = parseFloat(row.cells[2].textContent.replace('$', ''));
-        const salePrice = parseFloat(row.cells[3].textContent.replace('$', ''));
-
-        // Rellenar el formulario
-        document.getElementById("productName").value = productName;
-        document.getElementById("providerName").value = providerName;
-        document.getElementById("purchasePrice").value = purchasePrice;
-        document.getElementById("salePrice").value = salePrice;
-
-        // Eliminar el servicio antiguo
-        deleteProduct(button);
-    };
-
-    // Actualizar el almacenamiento local al cambiar el estado
-    function updateLocalStorage() {
-        const inventory = Array.from(inventoryList.querySelectorAll("tr")).map(row => {
-            return {
-                name: row.cells[0].textContent,
-                provider: row.cells[1].textContent,
-                purchasePrice: parseFloat(row.cells[2].textContent.replace('$', '')),
-                salePrice: parseFloat(row.cells[3].textContent.replace('$', '')),
-                status: row.cells[4].querySelector("button").textContent,
-                dateTime: row.cells[5].textContent
-            };
-        });
-        localStorage.setItem("inventory", JSON.stringify(inventory));
-        updateTotals();
-    }
-
-    loadInventory();
-});
+function closeDetails() {
+    document.getElementById("serviceDetailsModal").style.display = "none";
+}
