@@ -1,220 +1,164 @@
-/* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-  }
-  
-  .container {
-    max-width: 800px;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  h1 {
-    text-align: center;
-    color: #1db954;
-  }
-  
-  /* Estilos de formulario y tablas */
-  form, table {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  input[type="text"], input[type="number"], select {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-  
-  button {
-    background-color: #1db954;
-    color: #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-  }
-  
-  /* Botón de totalización */
-  #totalizationButton {
-    margin-top: 15px;
-    background-color: #007bff;  /* Azul */
-    color: #ffffff;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-  }
-  
-  #totalizationButton:hover {
-    opacity: 0.9;
-  }
-  
-  /* Tabla */
-  table {
-    background-color: #1e1e1e;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #333333;
-  }
-  
-  td {
-    border-top: 1px solid #333333;
-  }
-  
-  /* Botones de acción */
-  button.view-btn {
-    background-color: #007bff;  /* Azul */
-    color: #eeeeee;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-  }
-  
-  button.view-btn:hover {
-    opacity: 0.9;
-  }
-  
-  button.delete-btn {
-    border: 1px solid #e63946;  /* Rojo */
-    color: #e63946;
-    background-color: transparent;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  /* Botones de estado Pendiente/Pagado */
-  button.status-btn-pending {
-    background-color: #e63946;  /* Rojo */
-    color: #ffffff;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button.status-btn-paid {
-    background-color: #1db954;  /* Verde */
-    color: #ffffff;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  /* Modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modal-content {
-    background-color: #1e1e1e;
-    color: #ffffff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-    text-align: center;
-  }
-  
-  /* Cerrar el modal */
-  #closeModal, #closeTotalizationModal {
-    color: #ffffff;
-    font-size: 24px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-  }
-  
-  #closeModal:hover, #closeTotalizationModal:hover {
-    color: #cccccc;
-  }
-  
-  /* Responsividad */
-  @media (max-width: 768px) {
-    .container {
-      padding: 10px;
-    }
-  
-    input, select, button {
-      font-size: 14px;
-      padding: 8px;
-    }
-  
-    h1 {
-      font-size: 24px;
-    }
-  
-    table {
-      font-size: 14px;
-    }
-  
-    .modal-content {
-      width: 90%;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    h1 {
-      font-size: 20px;
-    }
-  
-    input, select, button {
-      font-size: 12px;
-      padding: 6px;
-    }
-  
-    table {
-      font-size: 12px;
-    }
-  
-    .modal-content {
-      width: 95%;
-    }
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  color: #1db954;
+}
+
+form, table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"], input[type="number"], select {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+button {
+  background-color: #1db954;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+#totalizationButton {
+  margin-top: 15px;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+#totalizationButton:hover {
+  opacity: 0.9;
+}
+
+table {
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #333333;
+}
+
+td {
+  border-top: 1px solid #333333;
+}
+
+button.view-btn {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+button.delete-btn {
+  background-color: #e63946;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+button.status-btn-pending {
+  background-color: #e63946;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.status-btn-paid {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+#closeModal, #closeTotalizationModal {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+#closeModal:hover, #closeTotalizationModal:hover {
+  color: #cccccc;
+}
