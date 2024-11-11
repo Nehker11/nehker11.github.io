@@ -51,10 +51,8 @@ button:hover {
   opacity: 0.9;
 }
 
-#totalizationButton {
+#totalizationButton, #resetListButton {
   margin-top: 15px;
-  background-color: #007bff;
-  color: #ffffff;
   font-size: 16px;
   text-align: center;
   border: none;
@@ -62,8 +60,14 @@ button:hover {
   padding: 10px;
 }
 
-#totalizationButton:hover {
-  opacity: 0.9;
+#totalizationButton {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+#resetListButton {
+  background-color: #e63946;
+  color: #ffffff;
 }
 
 table {
