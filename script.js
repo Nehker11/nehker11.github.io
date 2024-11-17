@@ -1,4 +1,3 @@
-let serviceId = 1;
 let totalInversion = 0;
 let totalGanancias = 0;
 
@@ -26,8 +25,11 @@ serviceForm.addEventListener('submit', function (event) {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleString();
 
+  // Generar ID único estilo hash
+  const uniqueId = crypto.randomUUID(); // Genera un UUID único
+
   const service = {
-    id: serviceId++,
+    id: uniqueId,
     name: serviceName,
     provider: providerName,
     client: clientName,
@@ -54,9 +56,9 @@ function renderServices() {
       <td>${service.id}</td>
       <td>${service.name}</td>
       <td>
-        <button class="view-btn" onclick="verDetalles(${service.id})" style="background-color: #007bff; color: #eeeeee;">Ver</button>
-        <button class="delete-btn" onclick="eliminarServicio(${service.id})" style="background-color: #e63946; color: #ffffff;">Eliminar</button>
-        <button class="${service.status === 'Pendiente' ? 'status-btn-pending' : 'status-btn-paid'}" onclick="cambiarEstado(${service.id})">${service.status}</button>
+        <button class="view-btn" onclick="verDetalles('${service.id}')" style="background-color: #007bff; color: #eeeeee;">Ver</button>
+        <button class="delete-btn" onclick="eliminarServicio('${service.id}')" style="background-color: #e63946; color: #ffffff;">Eliminar</button>
+        <button class="${service.status === 'Pendiente' ? 'status-btn-pending' : 'status-btn-paid'}" onclick="cambiarEstado('${service.id}')">${service.status}</button>
       </td>
     `;
     serviceList.appendChild(tr);
