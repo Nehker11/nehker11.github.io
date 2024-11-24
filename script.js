@@ -43,7 +43,6 @@ serviceForm.addEventListener('submit', function (event) {
   // Agregar el nuevo servicio al principio de la lista (invertir el orden)
   services.unshift(service);  // Cambié de push() a unshift()
 
-  updateTotals();
   saveServices();
   renderServices();
   serviceForm.reset();
