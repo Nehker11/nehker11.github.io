@@ -40,9 +40,10 @@ serviceForm.addEventListener('submit', function (event) {
     date: formattedDate,
   };
 
-  services.push(service);
-  updateTotals();
+  // Agregar el nuevo servicio al principio de la lista (invertir el orden)
+  services.unshift(service);  // Cambié de push() a unshift()
 
+  updateTotals();
   saveServices();
   renderServices();
   serviceForm.reset();
@@ -56,8 +57,8 @@ function renderServices() {
       <td>${service.id}</td>
       <td>${service.name}</td>
       <td>
-        <button class="view-btn" onclick="verDetalles('${service.id}')" style="background-color: #007bff; color: #eeeeee;">Ver</button>
-        <button class="delete-btn" onclick="eliminarServicio('${service.id}')" style="background-color: #e63946; color: #ffffff;">Eliminar</button>
+        <button class="view-btn" onclick="verDetalles('${service.id}')">Ver</button>
+        <button class="delete-btn" onclick="eliminarServicio('${service.id}')">Eliminar</button>
         <button class="${service.status === 'Pendiente' ? 'status-btn-pending' : 'status-btn-paid'}" onclick="cambiarEstado('${service.id}')">${service.status}</button>
       </td>
     `;
@@ -83,16 +84,20 @@ function eliminarServicio(id) {
   if (index !== -1) {
     const service = services[index];
 
-    // Actualizar inversión y ganancias al eliminar el servicio
-    totalInversion -= service.purchasePrice;
-    if (service.status === 'Pagado') {
-      totalGanancias -= (service.salePrice - service.purchasePrice);
-    }
+    // Mostrar confirmación antes de eliminar
+    const confirmed = confirm("¿Estás seguro de que deseas eliminar este servicio?");
+    if (confirmed) {
+      // Actualizar inversión y ganancias al eliminar el servicio
+      totalInversion -= service.purchasePrice;
+      if (service.status === 'Pagado') {
+        totalGanancias -= (service.salePrice - service.purchasePrice);
+      }
 
-    services.splice(index, 1);
-    saveServices();
-    renderServices();
-    updateTotals();
+      services.splice(index, 1);
+      saveServices();
+      renderServices();
+      updateTotals();
+    }
   }
 }
 
